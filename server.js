@@ -6,7 +6,10 @@
  * Simple Socket IO Chat
  */
 
-var app = require('express')(), server = require('http').createServer(app), io = require('socket.io').listen(server);
+var app = require('express')(), 
+server = require('http').createServer(app), 
+io = require('socket.io').listen(server);
+
 var port = Number(process.env.PORT || 5000);
 
 server.listen(port);
@@ -19,9 +22,9 @@ app.get('/', function(req, res) {
 //make connection
 io.sockets.on('connection', function(socket) {
 	
-	socket.on('data-changed', function(data) {
+	socket.on('data-changed', function(packet) {
 		socket.broadcast.emit('data-changed',{
-			data: data.data
+			resData: packet.reqData
 		});
 	});
 

@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title> Socket IO chat</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	</head>
 	<body>
 		<div id="chat">
@@ -9,7 +10,10 @@
 			<button id="sendBtn">
 				send
 			</button>
-			<div id="contents">this Area is message Box : <br></div>
+			<div id="contents">
+				this Area is message Box :
+				<br>
+			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -17,16 +21,16 @@
 		<script>
 			var socket = io.connect('http://gmchat.herokuapp.com/');
 
-			socket.on('data-changed', function(data) {
+			socket.on('data-changed', function(packet) {
 				console.log('data-changed');
-				console.log(data);
-				$('#contents').append(data.data + '<Br>');
+				console.log(packet.resData);
+				$('#contents').append(packet.resData + '<Br>');
 			});
 
 			$('#sendBtn').click(function() {
 				$('#contents').append($('#input').val() + '<Br>');
 				socket.emit('data-changed', {
-					data : $('#input').val()
+					reqData : $('#input').val()
 				});
 			});
 
